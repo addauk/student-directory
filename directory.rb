@@ -5,7 +5,7 @@ def input_students
   #create an empty array
   students = []
   #get the first name
-  name = gets.chomp
+  name = gets.sub("\n","")
   #while the name is not empty, repeat this code
   while !name.empty? do
     puts "Please enter their cohort"
@@ -29,7 +29,11 @@ def input_students
       date_of_birth:dob,
       height:height,
       cohort: cohort}
-    puts "Now we have #{students.count} students"
+    plural = "student"
+    if students.count > 1 
+      plural = "students"
+    end
+    puts "Now we have #{students.count} #{plural}"
     #get another name from the user
     name = gets.chomp
   end
@@ -66,12 +70,21 @@ def print(students)
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(CENTER_SPACE)
+  plural = "student"
+  if students.count > 1 
+    plural = "students"
+  end
+  puts "Overall, we have #{students.count} great #{plural}".center(CENTER_SPACE)
 end
 
 #nothing happens until we call all the methods
 students = input_students
+puts students
 CENTER_SPACE = 50
 print_header
-print(students)
+cohorts = students.map{|student| student[:cohort]}.uniq
+cohorts.each do |cohort|
+  temp = students.select{|student| student[:cohort] == cohort.to_sym}
+  print(temp)
+end
 print_footer(students)
