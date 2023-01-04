@@ -77,14 +77,44 @@ def print_footer(students)
   puts "Overall, we have #{students.count} great #{plural}".center(CENTER_SPACE)
 end
 
-#nothing happens until we call all the methods
-students = input_students
-puts students
-CENTER_SPACE = 50
-print_header
-cohorts = students.map{|student| student[:cohort]}.uniq
-cohorts.each do |cohort|
-  temp = students.select{|student| student[:cohort] == cohort.to_sym}
-  print(temp)
+def interactive_menu
+  students = []
+  loop do
+    # 1. print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # 2. read the input and save it into a variable
+    selection = gets.chomp
+    # 3. do what the user has asked
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      print(students)
+      print_footer(students)
+    when "9"
+      exit #this will cause the program to terminate
+    else
+      puts "I don't know what you meant, try again"
+    end
+  end
 end
-print_footer(students)
+
+#nothing happens until we call all the methods
+CENTER_SPACE = 50
+interactive_menu
+
+
+
+#students = input_students
+#puts students
+#CENTER_SPACE = 50
+#print_header
+#cohorts = students.map{|student| student[:cohort]}.uniq
+#cohorts.each do |cohort|
+#  temp = students.select{|student| student[:cohort] == cohort.to_sym}
+#  print(temp)
+#end
+#print_footer(students)
